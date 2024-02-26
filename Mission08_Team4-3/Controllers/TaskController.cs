@@ -2,7 +2,7 @@
 {
     public class TaskController
     {
-        IFileHttpResult;
+        IFileHttpResult():
 
        
     }
