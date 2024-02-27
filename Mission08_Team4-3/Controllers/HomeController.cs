@@ -10,6 +10,15 @@ namespace Mission08_Team4_3.Controllers
         {
             return View();
         }
+        public IActionResult Create()
+        {
+            return View();
+        }
+        public IActionResult Quadrants()
+        {
+            return View();
+        }
+
 
     }
 }
