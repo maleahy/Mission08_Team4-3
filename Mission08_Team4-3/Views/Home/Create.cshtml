@@ -1,0 +1,32 @@
+﻿@{
+}
+
+@model CreateTasks
+
+<h2>Create New Task</h2>
+
+<form method="post">
+    <div>
+        <label asp-for="Task">Task:</label>
+        <input asp-for="Task"/>
+    </div>
+    <br />
+    <div>
+        <label asp-for="Due_Date">Due Date:</label>
+        <input asp-for="Due_Date"/>
+    </div>
+    <br />
+    <div>
+        <label asp-for="Quadrant">Quadrant:</label>
+        <input asp-for="Quadrant"/>
+    </div>
+    <br />
+    <div>
+        <label asp-for="Category">Category:</label>
+        <input asp-for="Category"/>
+    </div>
+    <br />
+    <div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
