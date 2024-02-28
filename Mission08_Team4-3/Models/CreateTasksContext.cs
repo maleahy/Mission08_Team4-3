@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mission08_Team4_3.Models
 {
-    public class TaskContext: DbContext
+    public class CreateTasksContext: DbContext
     {
-        public TaskContext(DbContextOptions<TaskContext> options) : base(options)
+        public CreateTasksContext(DbContextOptions<CreateTasksContext> options) : base(options)
         {
         }
 
