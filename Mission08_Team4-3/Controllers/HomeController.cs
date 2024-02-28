@@ -8,8 +8,8 @@ namespace Mission08_Team4_3.Controllers
     public class HomeController : Controller
 
     {
-        private TaskContext _context;
-        public HomeController(TaskContext temp)
+        private CreateTasksContext _context;
+        public HomeController(CreateTasksContext temp)
         {
             _context = temp;
         }
