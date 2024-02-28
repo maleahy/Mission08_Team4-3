@@ -19,6 +19,7 @@ namespace Mission08_Team4_3.Controllers
             return View();
         }
         // Render the Create View
+        [HttpGet]
         public IActionResult Create()
         {
             // Create a viewbag to create a dropdown option ***Need to set up Program.cs to make this working -Su***
@@ -28,12 +29,38 @@ namespace Mission08_Team4_3.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Create(CreateTasks response)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Tasks.Add(response);
+                _context.SaveChanges();
+
+                // Render the Confirmation View
+                return View("Confirmation", response);
+            }
+            else
+            {
+                ViewBag.CategoryTable = _context.Categories
+                    .OrderBy(x => x.Category)
+                    .ToList();
+
+                return View(response);
+            }
+        }
+
         // Render the Quadrants View
         public IActionResult Quadrants()
         {
             return View();
         }
 
+        public IActionResult Confirmation()
+        {
+            return View();
+        }
         [HttpGet]
         public IActionResult CreateTasks()
 
@@ -51,12 +78,6 @@ namespace Mission08_Team4_3.Controllers
 
             return View("Confirmation", response);
 
-        }
-
-
-        public IActionResult get_to_know()
-        {
-            return View();
         }
 
         public IActionResult table()
