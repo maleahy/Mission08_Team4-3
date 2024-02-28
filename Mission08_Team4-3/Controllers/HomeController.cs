@@ -8,8 +8,8 @@ namespace Mission08_Team4_3.Controllers
     public class HomeController : Controller
 
     {
-        private CreateTasksContext _context;
-        public HomeController(CreateTasksContext temp)
+        private TodosContext _context;
+        public HomeController(TodosContext temp)
         {
             _context = temp;
         }
@@ -19,32 +19,15 @@ namespace Mission08_Team4_3.Controllers
             return View();
         }
         // Render the Create View
+        [HttpGet]
         public IActionResult Create()
         {
-            // Create a viewbag to create a dropdown option ***Need to set up Program.cs to make this working -Su***
-            ViewBag.Categories = _context.Categories
-            .OrderBy(x => x.Category)
-            .ToList();
-
-            return View();
-        }
-        // Render the Quadrants View
-        public IActionResult Quadrants()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult CreateTasks()
-
-        {
             ViewBag.Categories = _context.Categories.ToList();
-            return View("CreateTasks");
+            return View("Create");
         }
-
 
         [HttpPost]
-        public IActionResult CreateTasks(CreateTasks response)
+        public IActionResult Todos(Todos response)
         {
             _context.Tasks.Add(response);
             _context.SaveChanges();
@@ -53,15 +36,18 @@ namespace Mission08_Team4_3.Controllers
 
         }
 
-
-        public IActionResult get_to_know()
+        public IActionResult Confirmation()
         {
             return View();
         }
 
-        public IActionResult table()
+        //Render quadrants view
+        public IActionResult quadrants()
         {
-            var tasks = _context.Tasks.Include("Category").ToList(); // Fetch tasks from database
+            var tasks = _context.Tasks
+                .Where(t => !t.Completed)
+                .Include("Category")
+                .ToList(); // Fetch tasks from database
 
             return View(tasks); // Pass the list of tasks to the view
         }
@@ -72,11 +58,11 @@ namespace Mission08_Team4_3.Controllers
             var recordToEdit = _context.Tasks
                 .Single(x => x.TaskId == id);
             ViewBag.Categories = _context.Categories.ToList();
-            return View("CreateTasks", recordToEdit);
+            return View("Create", recordToEdit);
         }
 
         [HttpPost]
-        public IActionResult Edit(CreateTasks updatedTask)
+        public IActionResult Edit(Todos updatedTask)
         {
             _context.Update(updatedTask);
             _context.SaveChanges();
@@ -92,7 +78,7 @@ namespace Mission08_Team4_3.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(CreateTasks updatedTask)
+        public IActionResult Delete(Todos updatedTask)
         {
             _context.Remove(updatedTask);
             _context.SaveChanges();
