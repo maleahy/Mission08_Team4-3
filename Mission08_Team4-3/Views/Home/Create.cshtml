@@ -10,6 +10,8 @@
 <body>
     <form method="post">
         <input type="hidden" asp-for="TaskId"/>
+        <input type="hidden" asp-for="Completed" value="0"/>
+
         @* Task *@
         <div>
             <label asp-for="Task">Task:</label>
@@ -34,8 +36,6 @@
         </div>
         <br />
         <div>
-
-            <input type="hidden" asp-for="TaskId"/>
 
             @* category *@
             <label asp-for="CategoryId">Category:</label>
