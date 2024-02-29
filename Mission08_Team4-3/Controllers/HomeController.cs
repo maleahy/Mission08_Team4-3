@@ -107,7 +107,7 @@ namespace Mission08_Team4_3.Controllers
             {
                 task.Completed = !task.Completed; // Toggle the completion status
                 _context.SaveChanges();
-                return RedirectToAction("Quadrants"); // Adjust if needed
+                return RedirectToAction("Quadrants");
             }
             return NotFound();
 
