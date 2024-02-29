@@ -69,6 +69,21 @@ namespace Mission08_Team4_3.Controllers
             return RedirectToAction("quadrants");
         }
 
+        [HttpPost]
+        public IActionResult CompletionStatus(int taskId)
+        {
+            var task = _context.Tasks.FirstOrDefault(t => t.TaskId == taskId);
+            if (task != null)
+            {
+                task.Completed = !task.Completed; // Toggle the completion status
+                _context.SaveChanges();
+                return RedirectToAction("Quadrants");
+            }
+            return NotFound();
+
+        }
+
+
         [HttpGet]
         public IActionResult Delete(int id)
         {
