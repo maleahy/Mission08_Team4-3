@@ -71,7 +71,7 @@
                 <div>
                     @task.Task
                     <!-- Buttons for actions -->
-                    <form method="post" action="/Tasks/MarkAsCompleted" class="d-inline">
+                    <form method="post" action="@Url.Action("CompletionStatus", "Home")">
                         <input type="hidden" name="taskId" value="@task.TaskId" />
                         <button type="submit" class="btn btn-success">✔</button>
                     </form>
