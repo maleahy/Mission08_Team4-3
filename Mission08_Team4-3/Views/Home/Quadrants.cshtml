@@ -1,18 +1,33 @@
-﻿@model IEnumerable<CreateTasks> <!-- The model for the view is a collection of TaskItem -->
-
-@{
-    ViewBag.Title = "View Tasks";
+﻿@{
+    ViewData["Title"] = "To-do List";
 }
 
-<h2>View Tasks</h2>
+@model List<Mission08_Team4_3.Models.Todos>
 
-<ul>
-    @foreach (var task in Model.Where(t => !t.Completed)) <!-- Display only not completed tasks -->
+<div class="container">
+    @foreach (var quadrantName in new[] { "Quadrant1", "Quadrant2", "Quadrant3", "Quadrant4" })
     {
-        <li>
-            <strong>@task.Title</strong> -
-        Importance: @(task.IsImportant ? "Important" : "Not Important"),
-        Urgency: @(task.IsUrgent ? "Urgent" : "Not Urgent")
-        </li>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>@quadrantName</h3>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var task in Model.Where(t => t.Quadrant == quadrantName && !t.Completed))
+            {
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@task.Task</h5>
+                            <p class="card-text">@task.Due_Date.ToShortDateString()</p>
+                            <p class="card-text">@task.Category</p>
+                            <a class="btn btn-info" asp-controller="Home" asp-action="Edit" asp-route-id="@task.TaskId">Edit</a>
+                            <a class="btn btn-danger" asp-controller="Home" asp-action="Delete" asp-route-id="@task.TaskId">Delete</a>
+                            <a class="btn btn-info" asp-controller="Home" asp-action="Complete" asp-route-id="@task.TaskId">Complete</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     }
-</ul>
+</div>
