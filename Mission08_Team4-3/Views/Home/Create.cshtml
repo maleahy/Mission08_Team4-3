@@ -18,7 +18,12 @@
     <br />
     <div>
         <label asp-for="Quadrant">Quadrant:</label>
-        <input asp-for="Quadrant"/>
+        <select asp-for="Quadrant"required>
+            <option value="Quadrant1">Urgent/Important</option>
+            <option value="Quadrant2">Not Urgent/Important</option>
+            <option value="Quadrant3">Urgent/Not Important</option>
+            <option value="Quadrant4">Not Urgent/Not Important</option>
+        </select><br><br>
     </div>
     <br />
     <div>
