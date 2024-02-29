@@ -1,6 +1,8 @@
-﻿@model IEnumerable<CreateTasks>
+﻿@{
+    ViewData["Title"] = "To-do List";
+}
 
-<h2>To-Do List</h2>
+@model List<Mission08_Team4_3.Models.Todos>
 
 <div class="container">
     @foreach (var quadrantName in new[] { "Quadrant1", "Quadrant2", "Quadrant3", "Quadrant4" })

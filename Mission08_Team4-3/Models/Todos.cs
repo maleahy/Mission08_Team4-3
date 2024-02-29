@@ -2,7 +2,7 @@
 
 namespace Mission08_Team4_3.Models
 {
-    public class CreateTasks
+    public class Todos
     {
         [Key]
         public int TaskId { get; set; }
