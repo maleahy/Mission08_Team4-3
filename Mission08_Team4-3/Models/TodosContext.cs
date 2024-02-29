@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mission08_Team4_3.Models
 {
-    public class CreateTasksContext: DbContext
+    public class TodosContext: DbContext
     {
-        public CreateTasksContext(DbContextOptions<CreateTasksContext> options) : base(options)
+        public TodosContext(DbContextOptions<TodosContext> options) : base(options)
         {
         }
 
-        public DbSet<CreateTasks> Tasks { get; set; }
+        public DbSet<Todos> Tasks { get; set; }
         public DbSet<Categories> Categories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

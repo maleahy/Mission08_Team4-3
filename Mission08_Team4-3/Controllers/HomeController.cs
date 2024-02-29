@@ -8,8 +8,8 @@ namespace Mission08_Team4_3.Controllers
     public class HomeController : Controller
 
     {
-        private CreateTasksContext _context;
-        public HomeController(CreateTasksContext temp)
+        private TodosContext _context;
+        public HomeController(TodosContext temp)
         {
             _context = temp;
         }
@@ -31,7 +31,7 @@ namespace Mission08_Team4_3.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateTasks response)
+        public IActionResult Create(Todos response)
         {
             if (ModelState.IsValid)
             {
@@ -51,12 +51,6 @@ namespace Mission08_Team4_3.Controllers
             }
         }
 
-        // Render the Quadrants View
-        public IActionResult Quadrants()
-        {
-            return View();
-        }
-
         public IActionResult Confirmation()
         {
             return View();
@@ -71,7 +65,7 @@ namespace Mission08_Team4_3.Controllers
 
 
         [HttpPost]
-        public IActionResult CreateTasks(CreateTasks response)
+        public IActionResult CreateTasks(Todos response)
         {
             _context.Tasks.Add(response);
             _context.SaveChanges();
@@ -80,7 +74,8 @@ namespace Mission08_Team4_3.Controllers
 
         }
 
-        public IActionResult table()
+        //Render quadrants view
+        public IActionResult quadrants()
         {
             var tasks = _context.Tasks.Include("Category").ToList(); // Fetch tasks from database
 
@@ -97,7 +92,7 @@ namespace Mission08_Team4_3.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(CreateTasks updatedTask)
+        public IActionResult Edit(Todos updatedTask)
         {
             _context.Update(updatedTask);
             _context.SaveChanges();
@@ -113,7 +108,7 @@ namespace Mission08_Team4_3.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(CreateTasks updatedTask)
+        public IActionResult Delete(Todos updatedTask)
         {
             _context.Remove(updatedTask);
             _context.SaveChanges();
