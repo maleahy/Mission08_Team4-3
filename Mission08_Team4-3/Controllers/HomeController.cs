@@ -22,50 +22,12 @@ namespace Mission08_Team4_3.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            // Create a viewbag to create a dropdown option ***Need to set up Program.cs to make this working -Su***
-            ViewBag.Categories = _context.Categories
-            .OrderBy(x => x.Category)
-            .ToList();
-
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Create(Todos response)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Tasks.Add(response);
-                _context.SaveChanges();
-
-                // Render the Confirmation View
-                return View("Confirmation", response);
-            }
-            else
-            {
-                ViewBag.CategoryTable = _context.Categories
-                    .OrderBy(x => x.Category)
-                    .ToList();
-
-                return View(response);
-            }
-        }
-
-        public IActionResult Confirmation()
-        {
-            return View();
-        }
-        [HttpGet]
-        public IActionResult CreateTasks()
-
-        {
             ViewBag.Categories = _context.Categories.ToList();
-            return View("CreateTasks");
+            return View("Create");
         }
 
-
         [HttpPost]
-        public IActionResult CreateTasks(Todos response)
+        public IActionResult JoelHiltonMovieCollection(Todos response)
         {
             _context.Tasks.Add(response);
             _context.SaveChanges();
@@ -74,10 +36,38 @@ namespace Mission08_Team4_3.Controllers
 
         }
 
+        //public IActionResult Create(Todos response)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Tasks.Add(response);
+        //        _context.SaveChanges();
+
+        //        // Render the Confirmation View
+        //        return View("Confirmation", response);
+        //    }
+        //    else
+        //    {
+        //        ViewBag.CategoryTable = _context.Categories
+        //            .OrderBy(x => x.Category)
+        //            .ToList();
+
+        //        return View(response);
+        //    }
+        //}
+
+        public IActionResult Confirmation()
+        {
+            return View();
+        }
+
         //Render quadrants view
         public IActionResult quadrants()
         {
-            var tasks = _context.Tasks.Include("Category").ToList(); // Fetch tasks from database
+            var tasks = _context.Tasks
+                .Where(t => !t.Completed)
+                .Include("Category")
+                .ToList(); // Fetch tasks from database
 
             return View(tasks); // Pass the list of tasks to the view
         }
@@ -88,7 +78,7 @@ namespace Mission08_Team4_3.Controllers
             var recordToEdit = _context.Tasks
                 .Single(x => x.TaskId == id);
             ViewBag.Categories = _context.Categories.ToList();
-            return View("CreateTasks", recordToEdit);
+            return View("Create", recordToEdit);
         }
 
         [HttpPost]

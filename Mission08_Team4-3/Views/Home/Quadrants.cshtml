@@ -1,33 +1,47 @@
-﻿@{
-    ViewData["Title"] = "To-do List";
-}
+﻿@model IEnumerable<Todos>
 
-@model List<Mission08_Team4_3.Models.Todos>
+<h2>Task List</h2>
 
-<div class="container">
-    @foreach (var quadrantName in new[] { "Quadrant1", "Quadrant2", "Quadrant3", "Quadrant4" })
-    {
-        <div class="row">
-            <div class="col-md-12">
-                <h3>@quadrantName</h3>
-            </div>
-        </div>
-        <div class="row">
-            @foreach (var task in Model.Where(t => t.Quadrant == quadrantName && !t.Completed))
-            {
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">@task.Task</h5>
-                            <p class="card-text">@task.Due_Date.ToShortDateString()</p>
-                            <p class="card-text">@task.Category</p>
-                            <a class="btn btn-info" asp-controller="Home" asp-action="Edit" asp-route-id="@task.TaskId">Edit</a>
-                            <a class="btn btn-danger" asp-controller="Home" asp-action="Delete" asp-route-id="@task.TaskId">Delete</a>
-                            <a class="btn btn-info" asp-controller="Home" asp-action="Complete" asp-route-id="@task.TaskId">Complete</a>
+@if (Model.Any()) // Checks if there are any tasks to display
+{
+    <div class="row">
+        @foreach (var task in Model)
+        {
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        @task.Quadrant
+                    </div>
+                    <div class="card-body">
+                        <!-- Start of the row for task details and buttons -->
+                        <div class="row">
+                            <!-- Column for Task Details -->
+                            <div class="col-md-8">
+                                <p>@task.Task</p>
+                                <p>Due Date: @task.Due_Date.ToShortDateString()</p>
+                            </div>
+                            <!-- Column for Buttons -->
+                            <div class="col-md-4">
+                                <form method="post" action="/Tasks/MarkAsCompleted" class="mb-2"> <!-- Assuming you have a MarkAsCompleted action -->
+                                    <input type="hidden" name="taskId" value="@task.TaskId" />
+                                    <button type="submit" class="btn btn-success w-100">Mark as Completed</button>
+                                </form>
+                                <a class="btn btn-info w-100 mb-2" asp-controller="Home" asp-action="Edit" asp-route-id="@task.TaskId">Edit</a>
+                                <a class="btn btn-danger w-100" asp-controller="Home" asp-action="Delete" asp-route-id="@task.TaskId">Delete</a>
+                            </div>
                         </div>
+                        <!-- End of the row -->
                     </div>
                 </div>
+            </div>
+            if ((Model.Where(t => !t.Completed).ToList().IndexOf(task) + 1) % 2 == 0) // Creates a new row every two cards
+            {
+                @:</div><div class="row">
             }
-        </div>
-    }
-</div>
+        }
+    </div>
+}
+else
+{
+    <p>No tasks to display.</p>
+}

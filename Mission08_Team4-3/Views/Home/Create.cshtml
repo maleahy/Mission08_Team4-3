@@ -27,12 +27,15 @@
     </div>
     <br />
     <div>
-        <label asp-for="Category" class="form-label">Category:</label>
-        <select asp-for="Category" class="form-control">
-            <option value="">Choose...</option>
-            @foreach (var m in ViewBag.Categories)
+
+        <input type="hidden" asp-for="TaskId"/>
+
+        @* category *@
+        <label asp-for="CategoryId">Category:</label>
+        <select asp-for="CategoryId" id="CategoryId" name="Category">
+            @foreach (Category c in ViewBag.Categories)
             {
-                <option value="@m.Category">@m.Category</option>
+                <option asp-for="CategoryId" value="@c.CategoryId">@c.CategoryName</option>
             }
         </select>
     </div>

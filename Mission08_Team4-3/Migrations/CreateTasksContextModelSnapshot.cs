@@ -34,22 +34,22 @@ namespace Mission08_Team4_3.Migrations
                         new
                         {
                             CategoryId = 1,
-                            Category = "Home"
+                            CategoryName = "Home"
                         },
                         new
                         {
                             CategoryId = 2,
-                            Category = "School"
+                            CategoryName = "School"
                         },
                         new
                         {
                             CategoryId = 3,
-                            Category = "Work"
+                            CategoryName = "Work"
                         },
                         new
                         {
                             CategoryId = 4,
-                            Category = "Church"
+                            CategoryName = "Church"
                         });
                 });
 
