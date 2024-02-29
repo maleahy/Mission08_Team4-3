@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -26,20 +27,20 @@ namespace Mission08_Team4_3.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tasks",
+                name: "Todos",
                 columns: table => new
                 {
                     TaskId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Task = table.Column<string>(type: "TEXT", nullable: false),
-                    Due_Date = table.Column<string>(type: "TEXT", nullable: false),
+                    Due_Date = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Quadrant = table.Column<string>(type: "TEXT", nullable: false),
                     Category = table.Column<string>(type: "TEXT", nullable: false),
                     Completed = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tasks", x => x.TaskId);
+                    table.PrimaryKey("PK_Todos", x => x.TaskId);
                 });
 
             migrationBuilder.InsertData(
@@ -61,7 +62,7 @@ namespace Mission08_Team4_3.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Tasks");
+                name: "Todos");
         }
     }
 }

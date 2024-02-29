@@ -10,7 +10,7 @@ namespace Mission08_Team4_3.Models
         {
         }
 
-        public DbSet<Todos> Tasks { get; set; }
+        public DbSet<Todos> Todos { get; set; }
         public DbSet<Categories> Categories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

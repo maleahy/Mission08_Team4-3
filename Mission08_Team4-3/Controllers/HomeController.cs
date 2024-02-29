@@ -22,7 +22,7 @@ namespace Mission08_Team4_3.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            // Create a viewbag to create a dropdown option ***Need to set up Program.cs to make this working -Su***
+            // Create a viewbag to create a dropdown option
             ViewBag.Categories = _context.Categories
             .OrderBy(x => x.Category)
             .ToList();
@@ -35,7 +35,7 @@ namespace Mission08_Team4_3.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Tasks.Add(response);
+                _context.Todos.Add(response);
                 _context.SaveChanges();
 
                 // Render the Confirmation View
@@ -67,7 +67,7 @@ namespace Mission08_Team4_3.Controllers
         [HttpPost]
         public IActionResult CreateTasks(Todos response)
         {
-            _context.Tasks.Add(response);
+            _context.Todos.Add(response);
             _context.SaveChanges();
 
             return View("Confirmation", response);
@@ -77,7 +77,7 @@ namespace Mission08_Team4_3.Controllers
         //Render quadrants view
         public IActionResult quadrants()
         {
-            var tasks = _context.Tasks.Include("Category").ToList(); // Fetch tasks from database
+            var tasks = _context.Todos.Include("Category").ToList(); // Fetch tasks from database
 
             return View(tasks); // Pass the list of tasks to the view
         }
@@ -85,7 +85,7 @@ namespace Mission08_Team4_3.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var recordToEdit = _context.Tasks
+            var recordToEdit = _context.Todos
                 .Single(x => x.TaskId == id);
             ViewBag.Categories = _context.Categories.ToList();
             return View("CreateTasks", recordToEdit);
@@ -102,7 +102,7 @@ namespace Mission08_Team4_3.Controllers
         [HttpPost]
         public IActionResult CompletionStatus(int taskId)
         {
-            var task = _context.Tasks.FirstOrDefault(t => t.TaskId == taskId);
+            var task = _context.Todos.FirstOrDefault(t => t.TaskId == taskId);
             if (task != null)
             {
                 task.Completed = !task.Completed; // Toggle the completion status
@@ -118,7 +118,7 @@ namespace Mission08_Team4_3.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var recordToDelete = _context.Tasks
+            var recordToDelete = _context.Todos
                 .Single(x => x.TaskId == id);
             return View(recordToDelete);
         }
