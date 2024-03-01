@@ -2,11 +2,10 @@
     ViewData["Title"] = "Add Task to To-Do List";
 }
 
-@model Mission08_Team4_3.Models.Todos
+@model Mission08_Team4_3.Models.Todo
 
 <h1>@ViewData["Title"]</h1>
 
-<!DOCTYPE html>
 <body>
     <form method="post">
         <input type="hidden" asp-for="TaskId"/>
@@ -28,28 +27,25 @@
         <div>
             <label asp-for="Quadrant">Quadrant:</label>
             <select asp-for="Quadrant"required>
-                <option value="Quadrant1">Urgent/Important</option>
-                <option value="Quadrant2">Not Urgent/Important</option>
-                <option value="Quadrant3">Urgent/Not Important</option>
-                <option value="Quadrant4">Not Urgent/Not Important</option>
+                <option value="Quadrant1">Important/Urgent</option>
+                <option value="Quadrant2">Important/Not Urgent</option>
+                <option value="Quadrant3">Not Important/Urgent</option>
+                <option value="Quadrant4">Not Important/Not Urgent</option>
             </select><br><br>
         </div>
         <br />
         <div>
-
-            @* category *@
-            <label asp-for="CategoryId">Category:</label>
-            <select asp-for="CategoryId" id="CategoryId" name="Category">
-                @foreach (Category c in ViewBag.Categories)
-                {
-                    <option asp-for="CategoryId" value="@c.CategoryId">@c.CategoryName</option>
-                }
-            </select>
+            <label asp-for="CategoryId">Choose a Category:</label>
+            <select asp-for="CategoryId" required>
+                <option value="1">Home</option>
+                <option value="2">School</option>
+                <option value="3">Work</option>
+                <option value="4">Church</option>
+            </select><br><br>
         </div>
         <br />
         <div>
-            <button value="Submit" type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>
 </body>
-</html>

@@ -6,98 +6,88 @@ using System.Diagnostics;
 namespace Mission08_Team4_3.Controllers
 {
     public class HomeController : Controller
-
     {
-        private TodosContext _context;
-        public HomeController(TodosContext temp)
+        private ITodoRepository _repo;
+        public HomeController(ITodoRepository temp)
         {
-            _context = temp;
+            _repo = temp;
         }
-        // Render the Index View
         public IActionResult Index()
         {
             return View();
         }
-        // Render the Create View
+
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.Categories = _context.Categories.ToList();
-            return View("Create");
+            return View(new Todo());
         }
-
         [HttpPost]
-        public IActionResult Todos(Todos response)
+        public IActionResult Create(Todo t)
         {
-            _context.Tasks.Add(response);
-            _context.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                _repo.AddTodo(t);
+                return View("Confirmation", t);
+            }
 
-            return View("Confirmation", response);
+            else
+            {
+                return View(t);
+            }
 
         }
 
-        public IActionResult Confirmation()
+        //Quadrants 
+        public IActionResult Quadrants()
         {
-            return View();
-        }
+            var tasks = _repo.GetIncompleteTodosWithCategory() ?? new List<Todo>(); // Ensure it's never null
 
-        //Render quadrants view
-        public IActionResult quadrants()
-        {
-            var tasks = _context.Tasks
-                .Where(t => !t.Completed)
-                .Include("Category")
-                .ToList(); // Fetch tasks from database
-
-            return View(tasks); // Pass the list of tasks to the view
+            return View(tasks);
         }
 
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var recordToEdit = _context.Tasks
-                .Single(x => x.TaskId == id);
-            ViewBag.Categories = _context.Categories.ToList();
+            var recordToEdit = _repo.GetTodoById(id);
+            if (recordToEdit == null)
+            {
+                return NotFound();
+            }
+
             return View("Create", recordToEdit);
+
         }
 
         [HttpPost]
-        public IActionResult Edit(Todos updatedTask)
+        public IActionResult Edit(Todo updatedTask)
         {
-            _context.Update(updatedTask);
-            _context.SaveChanges();
+            _repo.UpdateTodo(updatedTask); //Good
             return RedirectToAction("quadrants");
         }
 
         [HttpPost]
         public IActionResult CompletionStatus(int taskId)
         {
-            var task = _context.Tasks.FirstOrDefault(t => t.TaskId == taskId);
-            if (task != null)
-            {
-                task.Completed = !task.Completed; // Toggle the completion status
-                _context.SaveChanges();
-                return RedirectToAction("Quadrants");
-            }
-            return NotFound();
+            _repo.ToggleCompletionStatus(taskId);
+
+
+            return RedirectToAction("Quadrants");
 
         }
-
 
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var recordToDelete = _context.Tasks
-                .Single(x => x.TaskId == id);
+            var recordToDelete = _repo.GetTodoById(id);
             return View(recordToDelete);
         }
 
         [HttpPost]
-        public IActionResult Delete(Todos updatedTask)
+        public IActionResult Delete(Todo updatedTask)
         {
-            _context.Remove(updatedTask);
-            _context.SaveChanges();
-            return RedirectToAction("quadrants");
+            _repo.RemoveTodo(updatedTask); //Good
+            return RedirectToAction("Quadrants");
         }
     }
 }

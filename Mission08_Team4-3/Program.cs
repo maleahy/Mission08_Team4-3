@@ -11,6 +11,9 @@ builder.Services.AddDbContext<TodosContext>(options =>
     options.UseSqlite(builder.Configuration["ConnectionStrings:Connection"]);
 });
 
+builder.Services.AddScoped<ITodoRepository, EFTodoRepository>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
