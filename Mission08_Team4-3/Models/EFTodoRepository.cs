@@ -59,7 +59,7 @@ namespace Mission08_Team4_3.Models
             var task = _context.Todos.FirstOrDefault(t => t.TaskId == taskId);
             if (task != null)
             {
-                task.Completed = task.Completed ? true : false;
+                task.Completed = !task.Completed;
                 _context.SaveChanges();
             }
         }

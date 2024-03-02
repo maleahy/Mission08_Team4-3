@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mission08_Team4_3.Models;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
 namespace Mission08_Team4_3.Controllers
@@ -8,9 +9,11 @@ namespace Mission08_Team4_3.Controllers
     public class HomeController : Controller
     {
         private ITodoRepository _repo;
-        public HomeController(ITodoRepository temp)
+        private ILogger<HomeController> _logger;
+        public HomeController(ITodoRepository temp, ILogger<HomeController> logger)
         {
             _repo = temp;
+            _logger = logger;
         }
         public IActionResult Index()
         {
@@ -25,6 +28,9 @@ namespace Mission08_Team4_3.Controllers
         [HttpPost]
         public IActionResult Create(Todo t)
         {
+
+
+            _logger.LogInformation("Submitting Todo: {@Todo}", t);
             if (ModelState.IsValid)
             {
                 _repo.AddTodo(t);
@@ -33,6 +39,10 @@ namespace Mission08_Team4_3.Controllers
 
             else
             {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    _logger.LogWarning("Model validation error: {ErrorMessage}", error.ErrorMessage);
+                }
                 return View(t);
             }
 
